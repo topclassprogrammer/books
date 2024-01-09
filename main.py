@@ -42,29 +42,29 @@ if __name__ == '__main__':
         except json.decoder.JSONDecodeError as err:
             print(f'Incorrect JSON data in {db_data_file_name}', err)
             sys.exit()
-        try:
-            for el in json_data:
-                if 'publisher' in el['model']:
-                    session.add(Publisher(name=el['fields']['name']))
-                elif 'book' in el['model']:
-                    session.add(Book(title=el['fields']['title'],
-                                     id_publisher=el['fields']['id_publisher']))
-                elif 'shop' in el['model']:
-                    session.add(Shop(name=el['fields']['name']))
-                elif 'stock' in el['model']:
-                    session.add(Stock(id_book=el['fields']['id_book'],
-                                      id_shop=el['fields']['id_shop'],
-                                      count=el['fields']['count']))
-                elif 'sale' in el['model']:
-                    session.add(Sale(price=el['fields']['price'],
-                                     date_sale=el['fields']['date_sale'],
-                                     id_stock=el['fields']['id_stock'],
-                                     count=el['fields']['count']))
-        except KeyError as err:
-            print(f'Incorrect key {err} while trying to get it in '
-                  f'FOR loop')
-            sys.exit()
-        session.commit()
+    try:
+        for el in json_data:
+            if 'publisher' in el['model']:
+                session.add(Publisher(name=el['fields']['name']))
+            elif 'book' in el['model']:
+                session.add(Book(title=el['fields']['title'],
+                                 id_publisher=el['fields']['id_publisher']))
+            elif 'shop' in el['model']:
+                session.add(Shop(name=el['fields']['name']))
+            elif 'stock' in el['model']:
+                session.add(Stock(id_book=el['fields']['id_book'],
+                                  id_shop=el['fields']['id_shop'],
+                                  count=el['fields']['count']))
+            elif 'sale' in el['model']:
+                session.add(Sale(price=el['fields']['price'],
+                                 date_sale=el['fields']['date_sale'],
+                                 id_stock=el['fields']['id_stock'],
+                                 count=el['fields']['count']))
+    except KeyError as err:
+        print(f'Incorrect key {err} while trying to get it in '
+              f'FOR loop')
+        sys.exit()
+    session.commit()
 
     while True:
         try:
